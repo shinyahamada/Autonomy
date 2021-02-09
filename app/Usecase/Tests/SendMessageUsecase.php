@@ -16,9 +16,9 @@ class SendMessageUsecase
         $this->sendSlackService = $sendSlackService;
     }
 
-    public function __invoke(string $message): void
+    public function send(string $message): void
     {
-        $slackReply = new SlackReply($this->title, new ReplyFields($message));
+        $slackReply = new SlackReply($this->title, (new ReplyFields($message))->fields());
         $this->sendSlackService->notify($slackReply);
     }
 }

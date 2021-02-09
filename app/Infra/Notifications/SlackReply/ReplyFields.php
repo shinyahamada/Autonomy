@@ -21,7 +21,7 @@ class ReplyFields
      *
      * @return array
      */
-    private function fields(): array
+    public function fields(): array
     {
         $fields = [
             "basic" => [
