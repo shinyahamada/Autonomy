@@ -34,4 +34,8 @@ return [
         'secret' => env('SPARKPOST_SECRET'),
     ],
 
+    'slack' => [
+        'test' => env('SLACK_TEST_CHANNEL'),
+    ]
+
 ];

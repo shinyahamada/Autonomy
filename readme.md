@@ -7,6 +7,27 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## 通知をどう扱うか
+
+- Slack
+用途ごとに 「1. Notifications/ にクラス(Notification継承した物)」と 「2. Services/ に専用のサービスクラス(use Notifiable & データ形式持つ)」と「3. Fieldsの整形だけ担当するクラス」を用意し、それを使いたいユースケースで使う
+
+【ポイント】
+▼ クラスの役割分担
+1. Notification継承した方:「通知用データそのものを扱うクラス。」
+2. Services/Send~~クラス:「受け取った通知用データを送るだけの クラス(だからここで送り先を持っている)」
+3. ~~Fieldsクラス:「1. に渡すFieldsを整形してやるクラス」
+
+▼ ユースケースかサービスどちらで使うべきか
+=> Usecaseで呼ぶ。ドメインサービス内の処理はあくまで処理だけ専門の範囲内の処理だけ書くようにする。
+
+▼ なぜfieldsの中身を生成する部分を通知データクラスで扱わないか
+=> それは通知内容によって複数のfieldsをもちうるし、
+それの為にconstructの引数増やしたり、もしくは元データ渡す側(参照先)でどのみちFieldsいれる為のメソッド用意してそこの引数で変えるのは面倒だから外部から作り終わったFieldsを渡してやる。要は単一責任。
+
+【結論】
+通知の具体的用途ごと(通常通知/モーダル/リアクション)に上記3つのSlack関連クラスを用意し、Usecaseで読んでやる
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
